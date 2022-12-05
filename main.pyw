@@ -6,12 +6,6 @@ import requests
 from PIL import Image, ImageTk
 import threading
 import config
-import os
-import time
-
-def get_time_str():
-    t = time.localtime()
-    return f"{t.tm_mon}-{t.tm_mday}-{t.tm_hour}:{t.tm_min}:{t.tm_sec}"
 
 openai.api_key = config.api_key
 
@@ -19,18 +13,16 @@ last_image = None
 def get_openai_credits():
     return openai.C
 # get an DALL-E image from prompt
-def get_image_openai(prompt, size_=1024):
+def get_image_openai(prompt, size=1024):
     response = openai.Image.create(
         prompt = prompt,
-        n = 1,
-        size = f"{size_}x{size_}"
+        size = f"{size}x{size}"
     )
-    print(size_)
     print(response['data'][0]['url'])
     image  = Image.open(requests.get(response['data'][0]['url'], stream=True).raw)
     return image
 
-def thread(prompt, canvas:tkinter.Canvas, button, save_button, size=1024):
+def thread(prompt, canvas:tkinter.Canvas, button, save_button, size=256):
     def update_image():
         global last_image
         try:
@@ -61,7 +53,7 @@ def save():
     global last_image
     if last_image is not None:
         #open a save file dialog
-        filename = tkinter.filedialog.asksaveasfilename(initialfile = f"{get_time_str()}.png", initialdir = os.path.expanduser("~/Desktop"), title = "Select file", filetypes = (("png files","*.png"),("all files","*.*")))
+        filename = tkinter.filedialog.asksaveasfilename(initialdir = "/", title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
         if filename is not None:
             last_image.save(filename)
             return
@@ -94,20 +86,13 @@ def main():
                             width=37)
     #create a button
     button = tkinter.Button(window, text = "Generate Image",
-                            command = lambda: thread(prompt_field.get("1.0", "end-1c"), canvas, button, save_button, variable.get()),
+                            command = lambda: thread(prompt_field.get("1.0", "end-1c"), canvas, button, save_button),
                             width=37)
     #pack the button into the window
-    #falling list with sizes 256, 512, 1024
-    choices = [256, 512, 1024]
-    variable = tkinter.IntVar(window)
-    variable.set(1024)
-    list = tkinter.OptionMenu(window, variable, *choices)
     button.pack(anchor="w", side = "top", pady=3)
     #pack the button into the window
     save_button.pack(anchor="w", side = "top", pady=3)
-    list.pack(anchor="w", side = "top", pady=3, padx = 3)
     #start the window's main loop
-    
     window.mainloop()
 if __name__ == "__main__":
     main()
