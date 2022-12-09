@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 
 
 import config
-openai.api_key = config.api_key # "your serial key" must be here
+openai.api_key = config.api_key # "your Secret API Key" must be here
 
 
 def get_time_str():
@@ -91,7 +91,7 @@ def save():
             return
     popup = tkinter.Tk()
     popup.wm_title("!")
-    label = tkinter.Label(popup, text="Error while saving the image. ", font=("Verdana", 10))
+    label = tkinter.Label(popup, text="An error occurred while saving the image!", font=("Verdana", 10))
     label.pack(side="top", fill="x", pady=10)
     B1 = tkinter.Button(popup, text="Okay", command = popup.destroy)
     B1.pack()
@@ -107,27 +107,26 @@ def main():
     #creating a winwdow
     window = customtkinter.CTk()
     window.title("DALL-E 2 image")
-    window.geometry("840x540")
+    window.geometry("900x540")
     window.resizable(False, False)
     #theme
     fontStyle = "TkDefaultFont"
     #creating gui elements
     variable = customtkinter.IntVar(window) 
     variable.set(1024)
-    comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=290, height=40, text_font=(fontStyle, 12), values=["256","512","1024"])
+    comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=350, height=50, text_font=(fontStyle, 12), values=["256","512","1024"])
     imageCanvas = customtkinter.CTkCanvas(master=window, width = 510, height = 510, background="Black")
     # labelPrompt = customtkinter.CTkLabel(master=window, text="Enter your prompt here:", text_font=(fontStyle, 13))
-    # textBoxPrompt = customtkinter.CTkTextbox(master=window, width=290, height=200, text_font=(fontStyle, 11), wrap="word")
-    entryPrompt = customtkinter.CTkEntry(master=window, width=290, height=200, text_font=(fontStyle, 11), placeholder_text="Enter your prompt here")
-    
-    buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=290, height=40, text_font=(fontStyle, 12), command = save)
-    buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=290, height=40, text_font=(fontStyle, 12), 
+    # textBoxPrompt = customtkinter.CTkTextbox(master=window, width=350, height=200, text_font=(fontStyle, 11), wrap="word")
+    entryPrompt = customtkinter.CTkEntry(master=window, width=880, height=50, text_font=(fontStyle, 11), placeholder_text="Enter your prompt here")
+    buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=350, height=50, text_font=(fontStyle, 12), command = save)
+    buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=350, height=50, text_font=(fontStyle, 12), 
             command = lambda: thread(entryPrompt.get(), imageCanvas, buttonGenerateImage, buttonSaveImage, comboBoxResolution))
     #packing gui elements
+    entryPrompt.pack(anchor="w", side = "top", pady=10, padx = 10)
     imageCanvas.pack(side="left", pady=10, padx = 10)
     # labelPrompt.pack(anchor="w", side = "top", pady=10, padx = 0)
     # textBoxPrompt.pack(anchor="w", side = "top", pady=10, padx = 0)
-    entryPrompt.pack(anchor="w", side = "top", pady=10, padx = 0)
     comboBoxResolution.pack(anchor="w", side = "top", pady=10, padx = 0)
     buttonGenerateImage.pack(anchor="w", side = "top", pady=10, padx = 0)
     buttonSaveImage.pack(anchor="w", side = "top", pady=10, padx = 0)
