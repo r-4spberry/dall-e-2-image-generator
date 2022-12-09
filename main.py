@@ -113,7 +113,7 @@ def main():
     variable = customtkinter.IntVar(window)
     variable.set(1024)
     comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=250, height=40, values=["256", "512", "1024"])
-    imageCanvas = customtkinter.CTkCanvas(master=window, width = 510, height = 510, background="Black", )
+    imageCanvas = customtkinter.CTkCanvas(master=window, width = 510, height = 510, background="Black")
     entryPrimptField = customtkinter.CTkEntry(master=window, width=250, height=200, placeholder_text="Enter your prompt here")
     buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=250, height=40, command = save)
     buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=250, height=40, 
