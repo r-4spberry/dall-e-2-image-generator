@@ -48,7 +48,7 @@ def get_image_openai(prompt, size_=1024):
 def thread(prompt, canvas:customtkinter.CTkCanvas, button_gen:customtkinter.CTkButton, button_save:customtkinter.CTkButton, comboBox_res:customtkinter.CTkComboBox):
     def update_image():
         global last_image
-        size = comboBox_res.variable.get()
+        size = comboBox_res._variable.get()
         try:
             button_gen.configure(state="disabled")
             button_save.configure(state="disabled")
@@ -110,17 +110,17 @@ def main():
     window.geometry("900x540")
     window.resizable(False, False)
     #theme
-    fontStyle = "TkDefaultFont"
+    fontStyle = tkinter.font.NORMAL
     #creating gui elements
     variable = customtkinter.IntVar(window) 
     variable.set(1024)
-    comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=350, height=50, text_font=(fontStyle, 12), values=["256","512","1024"])
+    comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=350, height=50, font=(fontStyle, 18), values=["256","512","1024"])
     imageCanvas = customtkinter.CTkCanvas(master=window, width = 510, height = 510, background="Black")
-    # labelPrompt = customtkinter.CTkLabel(master=window, text="Enter your prompt here:", text_font=(fontStyle, 13))
-    # textBoxPrompt = customtkinter.CTkTextbox(master=window, width=350, height=200, text_font=(fontStyle, 11), wrap="word")
-    entryPrompt = customtkinter.CTkEntry(master=window, width=880, height=50, text_font=(fontStyle, 11), placeholder_text="Enter your prompt here")
-    buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=350, height=50, text_font=(fontStyle, 12), command = save)
-    buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=350, height=50, text_font=(fontStyle, 12), 
+    # labelPrompt = customtkinter.CTkLabel(master=window, text="Enter your prompt here:", font=(fontStyle, 18))
+    # textBoxPrompt = customtkinter.CTkTextbox(master=window, width=350, height=200, font=(fontStyle, 16), wrap="word")
+    entryPrompt = customtkinter.CTkEntry(master=window, width=880, height=50, font=(fontStyle, 16), placeholder_text="Enter your prompt here")
+    buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=350, height=50, font=(fontStyle, 18), command = save)
+    buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=350, height=50, font=(fontStyle, 18), 
             command = lambda: thread(entryPrompt.get(), imageCanvas, buttonGenerateImage, buttonSaveImage, comboBoxResolution))
     #packing gui elements
     entryPrompt.pack(anchor="w", side = "top", pady=10, padx = 10)
