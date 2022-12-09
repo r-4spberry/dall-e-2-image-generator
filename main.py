@@ -53,9 +53,9 @@ def thread(prompt, canvas:customtkinter.CTkCanvas, button_gen:customtkinter.CTkB
             button_gen.configure(state="disabled")
             button_save.configure(state="disabled")
             comboBox_res.configure(state="disabled")
-            image = get_image_openai(prompt, size).resize((512, 512))
+            image = get_image_openai(prompt, size)
             last_image = image.copy()
-            image = ImageTk.PhotoImage(image)
+            image = ImageTk.PhotoImage(image.resize((512, 512)))
             canvas.image = image
             canvas.create_image(0, 0, anchor="nw", image=image)
             button_gen.configure(state="normal")
