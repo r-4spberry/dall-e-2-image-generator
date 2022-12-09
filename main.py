@@ -109,18 +109,22 @@ def main():
     window.title("DALL-E 2 image")
     window.geometry("800x540")
     window.resizable(False, False)
+    #theme
+    fontStyle = "TkDefaultFont"
     #creating gui elements
-    variable = customtkinter.IntVar(window)
+    variable = customtkinter.IntVar(window) 
     variable.set(1024)
-    comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=250, height=40, values=["256", "512", "1024"])
+    comboBoxResolution = customtkinter.CTkOptionMenu(master=window, hover=True, variable=variable, width=250, height=40, text_font=(fontStyle, 12), values=["64","128","256","512","1024"])
     imageCanvas = customtkinter.CTkCanvas(master=window, width = 510, height = 510, background="Black")
-    entryPrimptField = customtkinter.CTkEntry(master=window, width=250, height=200, placeholder_text="Enter your prompt here")
-    buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=250, height=40, command = save)
-    buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=250, height=40, 
-            command = lambda: thread(entryPrimptField.get(), imageCanvas, buttonGenerateImage, buttonSaveImage, comboBoxResolution))
+    labelPrompt = customtkinter.CTkLabel(master=window, text="Enter your prompt here:", text_font=(fontStyle, 13))
+    textBoxPrompt = customtkinter.CTkTextbox(master=window, width=250, height=270, wrap = "word", text_font=(fontStyle, 11))
+    buttonSaveImage= customtkinter.CTkButton(master=window, text = "Save Image", width=250, height=40, text_font=(fontStyle, 12), command = save)
+    buttonGenerateImage = customtkinter.CTkButton(master=window, text = "Generate Image", width=250, height=40, text_font=(fontStyle, 12), 
+            command = lambda: thread(textBoxPrompt.get("0.0", "end"), imageCanvas, buttonGenerateImage, buttonSaveImage, comboBoxResolution))
     #packing gui elements
     imageCanvas.pack(side="left", pady=10, padx = 10)
-    entryPrimptField.pack(anchor="w", side = "top", pady=10, padx = 0)
+    labelPrompt.pack(anchor="w", side = "top", pady=10, padx = 0)
+    textBoxPrompt.pack(anchor="w", side = "top", pady=10, padx = 0)
     comboBoxResolution.pack(anchor="w", side = "top", pady=10, padx = 0)
     buttonGenerateImage.pack(anchor="w", side = "top", pady=10, padx = 0)
     buttonSaveImage.pack(anchor="w", side = "top", pady=10, padx = 0)
